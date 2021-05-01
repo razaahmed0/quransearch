@@ -1,96 +1,74 @@
 import React from "react";
+import PageNumber from "./PageNumber.js";
+import { v4 as uuidv4 } from "uuid";
 
 function Pagination({ currentPage, totalPages, relevantPages, paginate }) {
 	return (
-		<nav>
-			<ul className="flex justify-around list pa0">
-				<li key={"first"}>
-					<a
-						href="!#"
-						className="link dim blue hover-gold"
-						onClick={() => paginate(1)}>
-						First
-					</a>
-				</li>
-				<li key={"prev"}>
-					<a
-						href="!#"
-						className="link dim blue hover-gold"
-						onClick={() => {
-							currentPage > 1 && paginate(currentPage - 1);
-						}}>
-						Prev
-					</a>
-				</li>
+		<div className="flex justify-around list pt3 pb3 br2 mt0 bg-near-white">
+			<PageNumber key={uuidv4()} paginate={paginate} number={1}>
+				First
+			</PageNumber>
 
-				{currentPage > 4 && (
-					<>
-						<li key={"initial"}>
-							<a
-								className="link dim blue hover-gold"
-								onClick={() => paginate(1)}
-								href="!#">
-								1
-							</a>
-						</li>
-						<li key={"ellipses-prev"}>
-							<a href="!#" className="link dim blue hover-gold">
-								...
-							</a>
-						</li>
-					</>
-				)}
+			<PageNumber
+				key={uuidv4()}
+				paginate={paginate}
+				number={currentPage > 1 ? currentPage - 1 : null}>
+				Prev
+			</PageNumber>
 
-				{relevantPages.map((number) => (
-					<li key={number} className={number === currentPage ? "bb pb1" : ""}>
-						<a
-							className="link dim blue hover-gold"
-							onClick={() => paginate(number)}
-							href="!#">
-							{number}
-						</a>
-					</li>
-				))}
+			{currentPage > 4 && (
+				<>
+					<PageNumber key={uuidv4()} paginate={paginate} number={1}>
+						1
+					</PageNumber>
+					<PageNumber key={uuidv4()} paginate={paginate} number={null}>
+						...
+					</PageNumber>
+				</>
+			)}
 
-				{currentPage < totalPages[totalPages.length - 4] && (
-					<>
-						<li key={"ellipses-next"}>
-							<a href="!#" className="link dim blue hover-gold">
-								...
-							</a>
-						</li>
-						<li key={"final"}>
-							<a
-								className="link dim blue hover-gold"
-								onClick={() => paginate(totalPages[totalPages.length - 1])}
-								href="!#">
-								{totalPages[totalPages.length - 1]}
-							</a>
-						</li>
-					</>
-				)}
+			{relevantPages.map((number) => (
+				<PageNumber
+					key={uuidv4()}
+					paginate={paginate}
+					number={number}
+					active={number === currentPage ? true : false}>
+					{number}
+				</PageNumber>
+			))}
 
-				<li key={"next"}>
-					<a
-						href="!#"
-						className="link dim blue hover-gold"
-						onClick={() => {
-							currentPage < totalPages[totalPages.length - 1] &&
-								paginate(currentPage + 1);
-						}}>
-						Next
-					</a>
-				</li>
-				<li key={"last"}>
-					<a
-						href="!#"
-						className="link dim blue hover-gold"
-						onClick={() => paginate(totalPages[totalPages.length - 1])}>
-						Last
-					</a>
-				</li>
-			</ul>
-		</nav>
+			{currentPage < totalPages[totalPages.length - 4] && (
+				<>
+					<PageNumber key={uuidv4()} paginate={paginate} number={null}>
+						...
+					</PageNumber>
+					<PageNumber
+						key={uuidv4()}
+						paginate={paginate}
+						number={totalPages[totalPages.length - 1]}>
+						{totalPages[totalPages.length - 1]}
+					</PageNumber>
+				</>
+			)}
+
+			<PageNumber
+				key={uuidv4()}
+				paginate={paginate}
+				number={
+					currentPage < totalPages[totalPages.length - 1]
+						? currentPage + 1
+						: null
+				}>
+				Next
+			</PageNumber>
+
+			<PageNumber
+				key={uuidv4()}
+				paginate={paginate}
+				number={totalPages[totalPages.length - 1]}>
+				Last
+			</PageNumber>
+		</div>
 	);
 }
 

@@ -39,7 +39,7 @@ function App() {
 	useEffect(() => {
 		let currentPages = [];
 		if (currentPage > 4) {
-			currentPages = totalPages.slice(currentPage - 3, currentPage + 3);
+			currentPages = totalPages.slice(currentPage - 3, currentPage + 2);
 		} else {
 			let first = totalPages.slice(0, currentPage);
 			currentPages = totalPages.slice(first[0] - 1, currentPage + 3);
