@@ -1,10 +1,6 @@
 import React from "react";
 
-function Verses({ verses, loading }) {
-	if (loading) {
-		return <h2>Loading...</h2>;
-	}
-
+function Verses({ verses }) {
 	return (
 		<ul className="flex flex-column list pa2 bg-near-white br2">
 			{verses.map((post, index) => (
