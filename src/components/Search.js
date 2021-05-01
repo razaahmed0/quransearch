@@ -10,7 +10,7 @@ function Search({ onInputChange, onSubmit }) {
 				onChange={onInputChange}
 			/>
 			<button
-				className="f4 br2 light-yellow bg-green w4 dim pointer ml4"
+				className="f4 br2 light-yellow bg-green w4 dim pointer "
 				onClick={onSubmit}>
 				Search
 			</button>

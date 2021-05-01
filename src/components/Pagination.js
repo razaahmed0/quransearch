@@ -4,7 +4,7 @@ import PageNumber from "./PageNumber.js";
 
 function Pagination({ currentPage, totalPages, relevantPages, paginate }) {
 	return (
-		<div className="flex justify-around list pt3 pb3 br2 mt0 bg-near-white bb bw2 b--gold">
+		<div className="flex justify-center list pt3 pb3 br2 mt0 bg-near-white bb bw2 b--gold overflow-hidden">
 			<PageNumber paginate={paginate} number={1}>
 				First
 			</PageNumber>
