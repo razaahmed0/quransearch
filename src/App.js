@@ -8,13 +8,16 @@ function App() {
 	const [posts, setPosts] = useState([]);
 	const [loading, setLoading] = useState(false);
 	const [currentPage, setCurrentPage] = useState(1);
-	const [postsPerPage] = useState(10);
+	const [postsPerPage] = useState(5);
 
 	useEffect(() => {
 		const fetchPosts = async () => {
 			setLoading(true);
-			const res = await axios.get("https://jsonplaceholder.typicode.com/posts");
-			setPosts(res.data);
+			const res = await axios.get(
+				"http://api.alquran.cloud/v1/search/women/all/en"
+			);
+			console.log(res.data.data.matches);
+			setPosts(res.data.data.matches);
 			setLoading(false);
 		};
 
@@ -30,10 +33,11 @@ function App() {
 	const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
 	return (
-		<div className="container mt-5">
-			<h1 className="text-primary mb-3">My Blog</h1>
+		<div className="flex flex-column center mw8">
+			<h1 className="f1">Quran Search</h1>
 			<Posts posts={currentPosts} loading={loading} />
 			<Pagination
+				currentPage={currentPage}
 				postsPerPage={postsPerPage}
 				totalPosts={posts.length}
 				paginate={paginate}
