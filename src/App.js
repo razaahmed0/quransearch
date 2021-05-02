@@ -8,18 +8,21 @@ import Footer from "./components/Footer";
 import axios from "axios";
 
 function App() {
+	const versesPerPage = 6;
+
 	const [input, setInput] = useState("");
 	const [verses, setVerses] = useState([]);
 	const [filteredVerses, setFilteredVerses] = useState([]);
+	const [visibleVerses, setVisibleVerses] = useState([]);
 	const [loading, setLoading] = useState(false);
 	const [loaded, setLoaded] = useState(false);
 	const [currentPage, setCurrentPage] = useState(1);
-	const [versesPerPage] = useState(6);
+
 	const [relevantPages, setRelevantPages] = useState([1, 2, 3, 4, 5]);
 	const [totalPages, setTotalPages] = useState([]);
 
 	useEffect(() => {
-		const calcTotalPages = async () => {
+		const calcTotalPages = () => {
 			const totalPages = [];
 			for (
 				let i = 1;
@@ -31,7 +34,7 @@ function App() {
 			setTotalPages(totalPages);
 		};
 		calcTotalPages();
-	}, [filteredVerses, versesPerPage]);
+	}, [filteredVerses]);
 
 	useEffect(() => {
 		let relevantPages = [];
@@ -71,7 +74,13 @@ function App() {
 	const filterVerses = useCallback(
 		(filters) => {
 			if (filters.length) {
-				setFilteredVerses(verses.filter((v) => v.text.includes(...filters)));
+				setFilteredVerses(
+					verses.filter((v) =>
+						filters.every(
+							(term) => v.text.toLowerCase().indexOf(term.toLowerCase()) > -1
+						)
+					)
+				);
 			} else {
 				setFilteredVerses(verses);
 			}
@@ -79,12 +88,12 @@ function App() {
 		[verses]
 	);
 
-	const indexOfLastVerse = currentPage * versesPerPage;
-	const indexOfFirstVerse = indexOfLastVerse - versesPerPage;
-	const currentVerses = filteredVerses.slice(
-		indexOfFirstVerse,
-		indexOfLastVerse
-	);
+	useEffect(() => {
+		const indexOfLastVerse = currentPage * versesPerPage;
+		const indexOfFirstVerse = indexOfLastVerse - versesPerPage;
+		setVisibleVerses(filteredVerses.slice(indexOfFirstVerse, indexOfLastVerse));
+	}, [filteredVerses, currentPage]);
+
 	const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
 	return (
@@ -98,7 +107,7 @@ function App() {
 						<div className="pa2 bg-near-white br2">
 							<Filter filterVerses={filterVerses}></Filter>
 						</div>
-						<Verses verses={currentVerses} />
+						<Verses verses={visibleVerses} />
 					</>
 				) : (
 					<h2 className="center">No results</h2>
@@ -107,7 +116,7 @@ function App() {
 				<h2 className="center">Loading...</h2>
 			) : null}
 
-			{loaded && verses.length ? (
+			{loaded && verses.length && totalPages.length > 1 ? (
 				<Pagination
 					currentPage={currentPage}
 					totalPages={totalPages}
