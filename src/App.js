@@ -8,19 +8,61 @@ import Footer from "./components/Footer";
 import axios from "axios";
 
 function App() {
-	const versesPerPage = 6;
-
 	const [input, setInput] = useState("");
-	const [verses, setVerses] = useState([]);
-	const [filteredVerses, setFilteredVerses] = useState([]);
-	const [visibleVerses, setVisibleVerses] = useState([]);
-	const [loading, setLoading] = useState(false);
 	const [loaded, setLoaded] = useState(false);
+	const [loading, setLoading] = useState(false);
+
+	const [verses, setVerses] = useState([]);
+	const [totalPages, setTotalPages] = useState([]);
+	const [visibleVerses, setVisibleVerses] = useState([]);
+	const [filteredVerses, setFilteredVerses] = useState([]);
+	const [relevantIndexes, setRelevantIndexes] = useState([]);
+	const [visiblePageNumbers, setVisiblePageNumbers] = useState([1, 2, 3, 4, 5]);
+
+	const versesPerPage = 6;
 	const [currentPage, setCurrentPage] = useState(1);
 
-	const [relevantPages, setRelevantPages] = useState([1, 2, 3, 4, 5]);
-	const [totalPages, setTotalPages] = useState([]);
+	//* get main data given user input term
+	const onSubmit = () => {
+		const fetchVerses = async () => {
+			setVerses([]);
+			setLoaded(false);
+			setLoading(true);
 
+			const url = `http://api.alquran.cloud/v1/search/${input}/all/en.hilali`;
+			const res = await axios.get(url);
+			if (res.status === 200) {
+				setVerses(res.data.data.matches);
+				setFilteredVerses(res.data.data.matches);
+			}
+
+			setLoaded(true);
+			setLoading(false);
+		};
+
+		fetchVerses();
+	};
+
+	//* filter main array given filter terms and reset page positon
+	const filterVerses = useCallback(
+		(filters) => {
+			if (filters.length) {
+				setFilteredVerses(
+					verses.filter((v) =>
+						filters.every(
+							(term) => v.text.toLowerCase().indexOf(term.toLowerCase()) > -1
+						)
+					)
+				);
+			} else {
+				setFilteredVerses(verses);
+			}
+			setCurrentPage(1);
+		},
+		[verses]
+	);
+
+	//* total number of pages given the filtered verses and verses per page
 	useEffect(() => {
 		const calcTotalPages = () => {
 			const totalPages = [];
@@ -36,71 +78,42 @@ function App() {
 		calcTotalPages();
 	}, [filteredVerses]);
 
+	//* page numbers that will be visible in the pagination
 	useEffect(() => {
-		let relevantPages = [];
+		let visiblePageNumbers = [];
 		if (currentPage > 4) {
-			relevantPages = totalPages.slice(currentPage - 4, currentPage + 3);
+			visiblePageNumbers = totalPages.slice(currentPage - 4, currentPage + 3);
 		} else {
 			let first = totalPages.slice(0, currentPage);
-			relevantPages = totalPages.slice(first[0] - 1, currentPage + 3);
+			visiblePageNumbers = totalPages.slice(first[0] - 1, currentPage + 3);
 		}
-		setRelevantPages(relevantPages);
+		setVisiblePageNumbers(visiblePageNumbers);
 	}, [currentPage, totalPages]);
 
+	//* the indices of the verses that will be visible on the current page
+	useEffect(() => {
+		const indexOfLastVerse = currentPage * versesPerPage;
+		const indexOfFirstVerse = indexOfLastVerse - versesPerPage;
+		setRelevantIndexes([indexOfFirstVerse, indexOfLastVerse]);
+	}, [currentPage]);
+
+	//* verses that will be visible on the current page
+	useEffect(() => {
+		setVisibleVerses(
+			filteredVerses.slice(relevantIndexes[0], relevantIndexes[1])
+		);
+	}, [filteredVerses, relevantIndexes]);
+
+	const paginate = (pageNumber) => setCurrentPage(pageNumber);
 	const onInputChange = (e) => {
 		setInput(e.target.value);
 	};
 
-	const onSubmit = () => {
-		const fetchVerses = async () => {
-			setVerses([]);
-			setLoaded(false);
-			setLoading(true);
-
-			const url = `http://api.alquran.cloud/v1/search/Abraham/all/en.hilali`;
-			const res = await axios.get(url);
-			if (res.status === 200) {
-				setVerses(res.data.data.matches);
-				setFilteredVerses(res.data.data.matches);
-			}
-
-			setLoaded(true);
-			setLoading(false);
-		};
-
-		fetchVerses();
-	};
-
-	const filterVerses = useCallback(
-		(filters) => {
-			if (filters.length) {
-				setFilteredVerses(
-					verses.filter((v) =>
-						filters.every(
-							(term) => v.text.toLowerCase().indexOf(term.toLowerCase()) > -1
-						)
-					)
-				);
-			} else {
-				setFilteredVerses(verses);
-			}
-		},
-		[verses]
-	);
-
-	useEffect(() => {
-		const indexOfLastVerse = currentPage * versesPerPage;
-		const indexOfFirstVerse = indexOfLastVerse - versesPerPage;
-		setVisibleVerses(filteredVerses.slice(indexOfFirstVerse, indexOfLastVerse));
-	}, [filteredVerses, currentPage]);
-
-	const paginate = (pageNumber) => setCurrentPage(pageNumber);
-
 	return (
 		<div className="flex flex-column center mw9">
 			<Header></Header>
-
 			<Search onInputChange={onInputChange} onSubmit={onSubmit}></Search>
+
 			{loaded ? (
 				verses.length ? (
 					<>
@@ -116,14 +129,15 @@ function App() {
 				<h2 className="center">Loading...</h2>
 			) : null}
 
-			{loaded && verses.length && totalPages.length > 1 ? (
+			{loaded && totalPages.length > 1 ? (
 				<Pagination
 					currentPage={currentPage}
 					totalPages={totalPages}
-					relevantPages={relevantPages}
+					visiblePageNumbers={visiblePageNumbers}
 					paginate={paginate}
 				/>
 			) : null}
+
 			<Footer></Footer>
 		</div>
 	);

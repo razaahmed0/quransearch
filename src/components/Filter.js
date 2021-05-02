@@ -9,8 +9,10 @@ function Filter({ filterVerses }) {
 	const handleClick = () => setShowInput(!showInput);
 
 	const addFilter = () => {
-		if (input) {
-			setFilters([...filters, input]);
+		if (input.trim()) {
+			if (!filters.includes(input)) {
+				setFilters([...filters, input]);
+			}
 			handleClick();
 			setInput(null);
 		}
@@ -48,7 +50,7 @@ function Filter({ filterVerses }) {
 					{filters.map((filter) => (
 						<button
 							key={filter}
-							className="f5 br4 shadow-5 bg-green white ml2 dim pointer pa2"
+							className="f5 br4 ba bw1 green b--green shadow-5 black ml2 dim pointer pa2"
 							onClick={() => removeFilter(filter)}>
 							{filter} <span className="pl3 f6">&#10060;</span>
 						</button>

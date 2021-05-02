@@ -2,7 +2,7 @@ import React from "react";
 import PageNumber from "./PageNumber.js";
 // import { v4 as uuidv4 } from "uuid";
 
-function Pagination({ currentPage, totalPages, relevantPages, paginate }) {
+function Pagination({ currentPage, totalPages, visiblePageNumbers, paginate }) {
 	return (
 		<div className="flex justify-center list pt3 pb3 br2 mt0 bg-near-white bb bw2 b--gold overflow-hidden">
 			<PageNumber paginate={paginate} number={1}>
@@ -26,7 +26,7 @@ function Pagination({ currentPage, totalPages, relevantPages, paginate }) {
 				</>
 			)}
 
-			{relevantPages.map((number) => (
+			{visiblePageNumbers.map((number) => (
 				<PageNumber
 					key={number}
 					paginate={paginate}
