@@ -14,7 +14,6 @@
 - [Project Status](#project-status)
 - [Room for Improvement](#room-for-improvement)
 
-
 ## General Information
 
 - Uses https://alquran.cloud/api to get verses from the Quran based on the provided keyword.
@@ -60,5 +59,5 @@ Project is: _no longer being worked on_. It was a good source of experience in p
 - Make the results more fluid and stack depending on length of the verses
 
 To do:
-- Add a button to favorite a verse
 
+- Add a button to favorite a verse
