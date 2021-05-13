@@ -33,6 +33,9 @@ function App() {
       if (res.status === 200) {
         setVerses(res.data.data.matches);
         setFilteredVerses(res.data.data.matches);
+      } else {
+        setVerses([]);
+        setFilteredVerses([]);
       }
 
       setLoaded(true);
