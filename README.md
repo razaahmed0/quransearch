@@ -41,12 +41,12 @@
 
 ## Setup
 
-clone the repository
+clone the repository <br />
 npm install
 
 ## Usage
 
-First search the whole quran using a singe keyword.
+First search the whole quran using a singe keyword.<br />
 Once the results come in, you can further refine the view via filtering with additional keywords.
 
 ## Project Status
