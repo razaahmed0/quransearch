@@ -4,7 +4,6 @@ import Search from "./components/Search";
 import Filter from "./components/Filter";
 import Verses from "./components/Verses";
 import Pagination from "./components/Pagination";
-import Footer from "./components/Footer";
 import axios from "axios";
 
 function App() {
@@ -23,7 +22,7 @@ function App() {
 	const [currentPage, setCurrentPage] = useState(1);
 
 	//* get main data given user input term
-	const onSubmit = () => {
+	const getVerses = () => {
 		const fetchVerses = async () => {
 			setVerses([]);
 			setLoaded(false);
@@ -110,9 +109,9 @@ function App() {
 	};
 
 	return (
-		<div className="flex flex-column center mw9">
+		<div className="flex flex-column center mw9 pb4">
 			<Header></Header>
-			<Search onInputChange={onInputChange} onSubmit={onSubmit}></Search>
+			<Search onInputChange={onInputChange} getVerses={getVerses}></Search>
 
 			{loaded ? (
 				verses.length ? (
@@ -138,7 +137,6 @@ function App() {
 				/>
 			) : null}
 
-			<Footer></Footer>
 		</div>
 	);
 }

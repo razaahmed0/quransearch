@@ -1,6 +1,6 @@
 import React from "react";
 
-function Search({ onInputChange, onSubmit }) {
+function Search({ onInputChange, getVerses }) {
 	return (
 		<div className="flex mt4 mb2 justify-center">
 			<input
@@ -11,7 +11,7 @@ function Search({ onInputChange, onSubmit }) {
 			/>
 			<button
 				className="f4 br2 white bg-green w4 dim pointer"
-				onClick={onSubmit}>
+				onClick={getVerses}>
 				Search
 			</button>
 		</div>
