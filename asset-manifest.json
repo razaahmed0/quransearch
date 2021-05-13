@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.js": "/quransearch/static/js/main.1a2c4440.chunk.js",
-    "main.js.map": "/quransearch/static/js/main.1a2c4440.chunk.js.map",
+    "main.js": "/quransearch/static/js/main.750af477.chunk.js",
+    "main.js.map": "/quransearch/static/js/main.750af477.chunk.js.map",
     "runtime-main.js": "/quransearch/static/js/runtime-main.5ab4e126.js",
     "runtime-main.js.map": "/quransearch/static/js/runtime-main.5ab4e126.js.map",
     "static/css/2.fe359a49.chunk.css": "/quransearch/static/css/2.fe359a49.chunk.css",
@@ -18,6 +18,6 @@
     "static/js/runtime-main.5ab4e126.js",
     "static/css/2.fe359a49.chunk.css",
     "static/js/2.a0a6431e.chunk.js",
-    "static/js/main.1a2c4440.chunk.js"
+    "static/js/main.750af477.chunk.js"
   ]
 }
