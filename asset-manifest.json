@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.js": "/quransearch/static/js/main.1a2c4440.chunk.js",
+    "main.js.map": "/quransearch/static/js/main.1a2c4440.chunk.js.map",
+    "runtime-main.js": "/quransearch/static/js/runtime-main.5ab4e126.js",
+    "runtime-main.js.map": "/quransearch/static/js/runtime-main.5ab4e126.js.map",
+    "static/css/2.fe359a49.chunk.css": "/quransearch/static/css/2.fe359a49.chunk.css",
+    "static/js/2.a0a6431e.chunk.js": "/quransearch/static/js/2.a0a6431e.chunk.js",
+    "static/js/2.a0a6431e.chunk.js.map": "/quransearch/static/js/2.a0a6431e.chunk.js.map",
+    "index.html": "/quransearch/index.html",
+    "static/css/2.fe359a49.chunk.css.map": "/quransearch/static/css/2.fe359a49.chunk.css.map",
+    "static/js/2.a0a6431e.chunk.js.LICENSE.txt": "/quransearch/static/js/2.a0a6431e.chunk.js.LICENSE.txt",
+    "static/media/aazan.751d1eb1.svg": "/quransearch/static/media/aazan.751d1eb1.svg",
+    "static/media/bubble.0694bcab.png": "/quransearch/static/media/bubble.0694bcab.png",
+    "static/media/kalma.a69ff073.svg": "/quransearch/static/media/kalma.a69ff073.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.5ab4e126.js",
+    "static/css/2.fe359a49.chunk.css",
+    "static/js/2.a0a6431e.chunk.js",
+    "static/js/main.1a2c4440.chunk.js"
+  ]
+}
